@@ -9,14 +9,16 @@ export class SeedData1702910235241 implements MigrationInterface {
       'INSERT INTO users (username, password) VALUES ("marton", "martonpass");',
     );
 
-    const data = Array(100).map((_, index) => {
-      return {
-        title: `Task ${index}`,
-        description: `Description ${index}`,
-        is_completed: Math.random() > 0.5 ? 1 : 0,
-        created_by: Math.random() > 0.5 ? 1 : 2,
-      };
-    });
+    const data = Array(100)
+      .fill(null)
+      .map((_, index) => {
+        return {
+          title: `Task ${index}`,
+          description: `Description ${index}`,
+          is_completed: Math.random() > 0.5 ? 1 : 0,
+          created_by: Math.random() > 0.5 ? 1 : 2,
+        };
+      });
 
     for (const task of data) {
       await queryRunner.query(
