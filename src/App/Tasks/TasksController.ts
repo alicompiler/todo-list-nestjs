@@ -15,12 +15,11 @@ import { JoiValidator } from '../../Core/JoiValidator';
 import { CreateTaskDto, createTaskValidationSchema } from './Dto/CreateTaskDto';
 import { TasksService } from './Service/TasksService';
 import { TaskFormatter } from './Service/TaskFormatter';
-import { FindTaskDto } from './Dto/FindTaskDto';
 import {
   FilterTasksDto,
   filterTasksValidationSchema,
 } from './Dto/FilterTasksDto';
-import {UpdateTaskDto, updateTaskValidationSchema} from "./Dto/UpdateTaskDto";
+import { UpdateTaskDto, updateTaskValidationSchema } from './Dto/UpdateTaskDto';
 
 @Controller('tasks')
 export class TasksController {

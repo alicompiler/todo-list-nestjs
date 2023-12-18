@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from '../Dto/CreateTaskDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskModel } from '../Data/TaskModel';
-import { FindTaskDto } from '../Dto/FindTaskDto';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { FilterTasksDto } from '../Dto/FilterTasksDto';
-import {UpdateTaskDto} from "../Dto/UpdateTaskDto";
+import { UpdateTaskDto } from '../Dto/UpdateTaskDto';
 
 @Injectable()
 export class TasksService {
