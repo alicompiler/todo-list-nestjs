@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Query,
   UsePipes,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import {
   FilterTasksDto,
   filterTasksValidationSchema,
 } from './Dto/FilterTasksDto';
+import {UpdateTaskDto, updateTaskValidationSchema} from "./Dto/UpdateTaskDto";
 
 @Controller('tasks')
 export class TasksController {
@@ -49,6 +51,14 @@ export class TasksController {
   async getAll(@Query() filters: FilterTasksDto) {
     const tasks = await this.tasksService.getByFilters(filters);
     return this.formatter.formatMany(tasks);
+  }
+
+  @Put(':id')
+  @UsePipes(new JoiValidator(updateTaskValidationSchema))
+  @HttpCode(HttpStatus.OK)
+  async update(@Param('id') id: number, @Body() dto: UpdateTaskDto) {
+    const task = await this.tasksService.updateById(id, dto);
+    return this.formatter.formatOne(task);
   }
 
   @Delete(':id')

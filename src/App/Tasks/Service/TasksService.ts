@@ -5,6 +5,7 @@ import { TaskModel } from '../Data/TaskModel';
 import { FindTaskDto } from '../Dto/FindTaskDto';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { FilterTasksDto } from '../Dto/FilterTasksDto';
+import {UpdateTaskDto} from "../Dto/UpdateTaskDto";
 
 @Injectable()
 export class TasksService {
@@ -44,5 +45,10 @@ export class TasksService {
 
   async delete(id: number) {
     await this.tasksRepository.delete({ id });
+  }
+
+  async updateById(id: number, dto: UpdateTaskDto) {
+    await this.tasksRepository.update({ id }, dto);
+    return this.tasksRepository.findOneBy({ id });
   }
 }
