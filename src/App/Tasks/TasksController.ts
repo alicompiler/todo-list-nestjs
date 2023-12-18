@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
-  Get,
   Query,
   UsePipes,
 } from '@nestjs/common';
@@ -36,8 +38,8 @@ export class TasksController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async find(@Body() dto: FindTaskDto) {
-    const task = await this.tasksService.find(dto);
+  async find(@Param('id') id: number) {
+    const task = await this.tasksService.find(id);
     return this.formatter.formatOne(task);
   }
 
@@ -47,5 +49,11 @@ export class TasksController {
   async getAll(@Query() filters: FilterTasksDto) {
     const tasks = await this.tasksService.getByFilters(filters);
     return this.formatter.formatMany(tasks);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async delete(@Param('id') id: number) {
+    await this.tasksService.delete(id);
   }
 }

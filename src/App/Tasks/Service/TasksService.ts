@@ -21,8 +21,8 @@ export class TasksService {
     return this.tasksRepository.save(task);
   }
 
-  async find(dto: FindTaskDto) {
-    return this.tasksRepository.findOneBy({ id: dto.id });
+  async find(id: number) {
+    return this.tasksRepository.findOneBy({ id });
   }
   async getByFilters(filters: FilterTasksDto) {
     const where: FindOptionsWhere<TaskModel> = {};
@@ -40,5 +40,9 @@ export class TasksService {
         [orderBy]: order,
       },
     });
+  }
+
+  async delete(id: number) {
+    await this.tasksRepository.delete({ id });
   }
 }
