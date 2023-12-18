@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Post,
   Get,
+  Put,
   UsePipes,
 } from '@nestjs/common';
 import { JoiValidator } from '../../Core/JoiValidator';
@@ -30,7 +31,6 @@ export class TasksController {
   }
 
   @Get(':id')
-  @UsePipes(new JoiValidator(findTaskValidationSchema))
   @HttpCode(HttpStatus.OK)
   async find(@Body() dto: FindTaskDto) {
     const task = await this.tasksService.find(dto);
