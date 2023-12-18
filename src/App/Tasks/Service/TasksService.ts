@@ -3,6 +3,7 @@ import { CreateTaskDto } from '../Dto/CreateTaskDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskModel } from '../Data/TaskModel';
 import { Repository } from 'typeorm';
+import { FindTaskDto } from '../Dto/FindTaskDto';
 
 @Injectable()
 export class TasksService {
@@ -17,5 +18,9 @@ export class TasksService {
       createdBy: createdById,
     });
     return this.tasksRepository.save(task);
+  }
+
+  async find(dto: FindTaskDto) {
+    return this.tasksRepository.findOneBy({ id: dto.id });
   }
 }
