@@ -13,4 +13,8 @@ export class TaskFormatter {
       createdAt: task.createdAt.toISOString(),
     };
   }
+
+  formatMany(tasks: TaskModel[]): TaskResponse[] {
+    return tasks.map((task) => this.formatOne(task));
+  }
 }

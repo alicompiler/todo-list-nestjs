@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from '../Dto/CreateTaskDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskModel } from '../Data/TaskModel';
-import { Repository } from 'typeorm';
 import { FindTaskDto } from '../Dto/FindTaskDto';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { FilterTasksDto } from '../Dto/FilterTasksDto';
 
 @Injectable()
 export class TasksService {
@@ -22,5 +23,22 @@ export class TasksService {
 
   async find(dto: FindTaskDto) {
     return this.tasksRepository.findOneBy({ id: dto.id });
+  }
+  async getByFilters(filters: FilterTasksDto) {
+    const where: FindOptionsWhere<TaskModel> = {};
+    if (filters.isCompleted) {
+      where.isCompleted = filters.isCompleted;
+    }
+    if (filters.createdBy) {
+      where.createdBy = filters.createdBy;
+    }
+    const orderBy = filters.orderBy || 'createdAt';
+    const order = filters.order || 'DESC';
+    return this.tasksRepository.find({
+      where,
+      order: {
+        [orderBy]: order,
+      },
+    });
   }
 }

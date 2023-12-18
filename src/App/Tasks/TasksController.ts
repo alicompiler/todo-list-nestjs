@@ -1,10 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Get,
+  Query,
   UsePipes,
 } from '@nestjs/common';
 import { JoiValidator } from '../../Core/JoiValidator';
@@ -12,6 +13,10 @@ import { CreateTaskDto, createTaskValidationSchema } from './Dto/CreateTaskDto';
 import { TasksService } from './Service/TasksService';
 import { TaskFormatter } from './Service/TaskFormatter';
 import { FindTaskDto, findTaskValidationSchema } from './Dto/FindTaskDto';
+import {
+  FilterTasksDto,
+  filterTasksValidationSchema,
+} from './Dto/FilterTasksDto';
 
 @Controller('tasks')
 export class TasksController {
@@ -35,5 +40,13 @@ export class TasksController {
   async find(@Body() dto: FindTaskDto) {
     const task = await this.tasksService.find(dto);
     return this.formatter.formatOne(task);
+  }
+
+  @Get()
+  @UsePipes(new JoiValidator(filterTasksValidationSchema, 'query'))
+  @HttpCode(HttpStatus.OK)
+  async getAll(@Query() filters: FilterTasksDto) {
+    const tasks = await this.tasksService.getByFilters(filters);
+    return this.formatter.formatMany(tasks);
   }
 }
